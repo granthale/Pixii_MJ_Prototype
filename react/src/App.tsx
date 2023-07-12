@@ -13,15 +13,21 @@ function App() {
   const sizes = ["256x256", "512x512", "1024x1024"];
 
   const handleModel = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    let model = String(event.target.value);
-    setModel(model);
-    console.log(model);
+    const newModel = String(event.target.value);
+    if (newModel === "----") {
+      setModel("");
+    } else {
+      setModel(newModel);
+    }
   };
 
   const handleSize = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    let size = String(event.target.value);
-    setSize(size);
-    console.log(size);
+    const newSize = String(event.target.value);
+    if (newSize === "----") {
+      setSize("");
+    } else {
+      setSize(newSize);
+    }
   };
 
   return (

@@ -61,7 +61,7 @@ function Dalle({ size }: Props) {
             onChange={(e) => setPrompt(e.target.value)}
           ></input>
           <br></br>
-          <button className="btn btn-primary p-1" onClick={generateImage}>
+          <button className="btn btn-primary p-1" onClick={generateImage} disabled={!size && !prompt}>
             Generate
           </button>
           <br></br>
