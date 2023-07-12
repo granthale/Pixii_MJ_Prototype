@@ -4,6 +4,8 @@ from flask_cors import CORS
 import asyncio
 import os
 from dotenv import load_dotenv
+import requests
+import time
 
 app = Flask(__name__)
 CORS(app)  # Not secure, but allows for server requests across two local servers
@@ -38,33 +40,6 @@ def task_status(prompt):
 
 
 # # # # # # # # # # # # # # # ## # # # # # # # # # # # # # # #
-
-from midjourney_api import TNL
-
-image_urls_from_tnl = []
-
-
-# TNL Solution
-@app.route("/generate_image/<prompt>", methods=["GET"])
-def generate_image(prompt):
-    tnl = TNL(os.getenv("TNL_API_KEY"))
-    response = tnl.imagine(prompt)
-    return response
-
-
-# Need internet-accessible webhook to receive images from TNL
-    # This has currently been tested locally with ngrok-generated urls
-@app.route("/webhook", methods=["POST"])
-def webhook():
-    data = request.get_json()
-    print(data)
-    #  TODO
-        # Download URLs into static 
-        # get prompt
-        # update completed with {prompt}.png
-
-        # Display multiple images correctly in React
-
 
 if __name__ == "__main__":
     app.run()

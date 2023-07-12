@@ -18,7 +18,8 @@ function Midjourney() {
   const generateImage = async () => {
     setLoading(true);
     try {
-      //////////////// Python Automated Solution ////////////////
+      //////////////// Python/Discord Automated Solution ////////////////
+
       // // Start the long-running task and receive the task ID
       // const startResponse = await fetch("http://127.0.0.1:5000/start_task", {
       //   method: "POST",
@@ -27,31 +28,44 @@ function Midjourney() {
       //   },
       //   body: JSON.stringify({ prompt: prompt }),
       // });
+
+      // let taskStatus = await fetch(
+      //   `http://127.0.0.1:5000/task_status/${prompt}`
+      // );
+      // let taskStatusData = await taskStatus.json();
+
+      // // Poll the task status until it's completed
+      // while (taskStatusData.status === "running") {
+      //   await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
+      //   taskStatus = await fetch(`http://127.0.0.1:5000/task_status/${prompt}`);
+      //   taskStatusData = await taskStatus.json();
+      // }
+
+      // // Once the task is completed, retrieve the image
+      // if (taskStatusData.status === "completed") {
+      //   const imageUrl = taskStatusData.image_path;
+      //   setResult(`http://127.0.0.1:5000/static/${imageUrl}`);
+      //   console.log(imageUrl);
+      // }
+
       ////////////////////////////////////////////////////
 
-      //////////////// TNL Solution ////////////////
-      const res = await tnl.imagine(prompt);
-      console.log(res);
+      //////////////// The Next Leg (TNL) Solution ////////////////
+
+      let response = await tnl.imagine(prompt);
+      console.log(response);
+      await new Promise((r) => setTimeout(r, 3000)); // Wait for 3 seconds
+      while (
+        (await tnl.getMessageAndProgress(response.messageId)).progress != 100
+      ) {
+        await new Promise((r) => setTimeout(r, 3000)); // Wait for 3 seconds
+        console.log("Waited 3 seconds");
+      }
+      let completed_response = await tnl.getMessageAndProgress(response.messageId);
+      console.log(completed_response);
+      setResult(completed_response.response.imageUrl);
       /////////////////////////////.////////////////
 
-      let taskStatus = await fetch(
-        `http://127.0.0.1:5000/task_status/${prompt}`
-      );
-      let taskStatusData = await taskStatus.json();
-
-      // Poll the task status until it's completed
-      while (taskStatusData.status === "running") {
-        await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second
-        taskStatus = await fetch(`http://127.0.0.1:5000/task_status/${prompt}`);
-        taskStatusData = await taskStatus.json();
-      }
-
-      // Once the task is completed, retrieve the image
-      if (taskStatusData.status === "completed") {
-        const imageUrl = taskStatusData.image_path;
-        setResult(`http://127.0.0.1:5000/static/${imageUrl}`);
-        console.log(imageUrl);
-      }
     } catch (error) {
       console.error("Error generating image:", error);
     } finally {
