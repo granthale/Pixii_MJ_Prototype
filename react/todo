@@ -1,0 +1,9 @@
+* Integrate midjourney with current python approach
+
+* Add in loading bar for midjourney
+<!-- tnl.getMessageAndProgress(messageId: string, expireMins?: number): Promise<TNLTypes.Response.MessageAndProgress> -->
+
+* Implement ability to add in your own discord account and then use that to grab images.
+
+* Get env file to work
+# Make it look pretty

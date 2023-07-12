@@ -1,0 +1,14 @@
+.download-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: url("src/assets/download_button.png") no-repeat center center; /* Replace with your image URL or SVG path */
+    background-size: contain;
+  }
+
+.image-container {
+    position: relative;
+    display: inline-block;
+}
